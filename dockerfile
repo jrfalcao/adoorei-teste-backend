@@ -1,13 +1,21 @@
-# Use a imagem oficial do PHP com Apache
-FROM php:8.0-fpm
+FROM php:8.1-fpm
+
+# Informar usuário para o wsl2
+ARG user=falcao
+ARG uid=1000
 
 # Instala as dependências do sistema
 RUN apt-get update && apt-get install -y \
+    git \
+    curl \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
     zip \
     unzip
+
+# Limpar cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Configura a extensão GD para PHP
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
@@ -15,6 +23,11 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 
 # Instala o Composer globalmente
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Criação de usuário para rodar Composer e Artisan
+RUN useradd -G www-data,root -u $uid -d /home/$user $user
+RUN mkdir -p /home/$user/.composer && \
+    chown -R $user:$user /home/$user
 
 # Define o diretório de trabalho
 WORKDIR /var/www
@@ -33,3 +46,5 @@ EXPOSE 9000
 
 # Inicia o PHP-FPM
 CMD ["php-fpm"]
+
+USER $user
