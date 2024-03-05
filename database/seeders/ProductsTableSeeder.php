@@ -1,0 +1,38 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Seeder;
+
+class ProductsTableSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+
+        DB::table('products')->insert([
+            [
+                'name' => 'Celular 1',
+                'price' => 1800.00,
+                'description' => 'Lorenzo Ipsulum',
+                'quantity' => 50,
+            ],
+            [
+                'name' => 'Celular 2',
+                'price' => 3200.00,
+                'description' => 'Lorem ipsum dolor',
+                'quantity' => 70,
+            ],
+            [
+                'name' => 'Celular 3',
+                'price' => 9800.00,
+                'description' => 'Lorem ipsum dolor sit amet',
+                'quantity' => 45,
+            ],
+        ]);
+    }
+}

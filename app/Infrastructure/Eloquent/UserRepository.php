@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Infrastructure\Persistence\Eloquent;
+namespace App\Infrastructure\Eloquent;
 
-use App\Domain\Contracts\Repositories\UserRepositoryInterface;
-use App\Domain\Entities\User;
+use App\Domain\User\Repository\UserRepositoryInterface;
+use App\Domain\User\Entity\User;
 
 class UserRepository implements UserRepositoryInterface
 {

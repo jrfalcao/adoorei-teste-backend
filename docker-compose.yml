@@ -17,6 +17,8 @@ services:
     depends_on:
       - db
       - cache
+    networks:
+      - loja_api
 
   # Serviço Nginx
   webserver:
@@ -31,6 +33,8 @@ services:
       - nginx_logs:/var/log/nginx
     depends_on:
       - app
+    networks:
+      - loja_api
 
   # Serviço MySQL
   db:
@@ -44,6 +48,10 @@ services:
       MYSQL_PASSWORD: secret
     volumes:
       - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - loja_api
 
   # Serviço Redis
   cache:
@@ -52,8 +60,14 @@ services:
     restart: unless-stopped
     volumes:
       - redis_data:/data
+    networks:
+      - loja_api
 
 volumes:
   db_data:
   redis_data:
   nginx_logs:
+
+networks:
+  loja_api:
+    driver: bridge
