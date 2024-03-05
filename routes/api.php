@@ -1,5 +1,8 @@
 <?php
 
+use App\Domain\Product\Entity\Product;
+use App\Infrastructure\Validators\Product\ProductValidateItens;
+use Illuminate\Validation\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
