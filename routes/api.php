@@ -1,7 +1,7 @@
 <?php
 
 use App\Presentation\Api\Products\ProductPresentation;
-use Illuminate\Http\Request;
+use App\Presentation\Api\Sales\SalesPresentation;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,10 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/products/{id}', function ($id, ProductPresentation $productPresentation) {
-    return $productPresentation->getProductById($id);
-});
-
-// equest) {
-//     return $request->user();
+// Route::get('/products/{id}', function ($id, ProductPresentation $productPresentation) {
+//     return $productPresentation->getProductById($id);
 // });
+
+Route::get('/products/{id}', [ProductPresentation::class, 'getProductById']);
+Route::get('/products', [ProductPresentation::class, 'findAll']);
+
+Route::post('/sales', [SalesPresentation::class, 'createSale']);
+

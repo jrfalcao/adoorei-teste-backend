@@ -32,19 +32,18 @@ class ProductPresentation
 
             return response()->json($product);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'An error occurred while retrieving the product.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['error' => 'An error occurred while retrieving the product.' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function getAll(): JsonResponse
+    public function findAll(): JsonResponse
     {
         try {
             $products = $this->productService->findAllProducts();
 
             return response()->json($products);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'An error occurred while retrieving the products.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['error' => 'An error occurred while retrieving the products.' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }
-

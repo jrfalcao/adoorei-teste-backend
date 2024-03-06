@@ -17,6 +17,6 @@ class ProductService implements ProductServiceInterface
     }
 
     public function findAllProducts() {
-
+        return $this->productRepository->findAll();
     }
 }

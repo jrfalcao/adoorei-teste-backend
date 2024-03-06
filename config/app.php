@@ -171,6 +171,7 @@ return [
 
         App\Providers\RepositoryServiceProvider::class,
         App\Providers\ProductServiceProvider::class,
+        App\Providers\SalesServiceProvider::class,
     ])->toArray(),
 
     /*
