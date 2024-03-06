@@ -2,7 +2,6 @@
 
 namespace App\Infrastructure\Validators\Product;
 
-use App\Domain\Product\Entity\Product;
 use Illuminate\Validation\Factory;
 use App\Infrastructure\Validators\Product\ItensValidatorInterface;
 

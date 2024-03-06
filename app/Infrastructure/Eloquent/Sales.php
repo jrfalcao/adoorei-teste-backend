@@ -2,16 +2,17 @@
 
 namespace App\Infrastructure\Eloquent;
 
+use App\Domain\Product\Entity\Product;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Sales extends Model
 {
     /**
      * A tabela associada ao modelo.
      *
      * @var string
      */
-    protected $table = 'products';
+    protected $table = 'sales';
 
     /**
      * Os atributos que são mass assignable.
@@ -21,17 +22,16 @@ class Product extends Model
     protected $fillable = [
         'name',
         'price',
-        'description',
-        'quantity',
+        'amount',
     ];
 
     /**
      * O relacionamento com a tabela de vendas.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function sales()
+    public function product()
     {
-        return $this->hasMany(Sales::class);
+        return $this->belongsTo(Product::class);
     }
 }

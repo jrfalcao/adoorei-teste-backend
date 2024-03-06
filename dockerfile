@@ -1,8 +1,13 @@
-FROM php:8.1-fpm
+FROM php:8.2-fpm
 
 # Informar usuário para o wsl2
 ARG user=falcao
 ARG uid=1000
+
+# Instala o Xdebug
+RUN pecl install xdebug-3.2.1 \
+	&& docker-php-ext-enable xdebug
+COPY php/90-xdebug.ini "${PHP_INI_DIR}/conf.d"
 
 # Instala as dependências do sistema
 RUN apt-get update && apt-get install -y \

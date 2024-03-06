@@ -7,6 +7,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: laravel_app
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     restart: unless-stopped
     volumes:
       - ./:/var/www

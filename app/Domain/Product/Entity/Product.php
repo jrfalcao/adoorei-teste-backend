@@ -6,6 +6,7 @@ use App\Infrastructure\Validators\Product\ItensValidatorInterface;
 
 class Product
 {
+    private $id;
     private $name;
     private $price;
     private $description;
@@ -24,6 +25,7 @@ class Product
     }
 
     public function create(array $itens): void {
+        if( isset($itens['id']) ) $this->setId($itens['id']);
         $this->setName($itens['name']);
         $this->setPrice($itens['price']);
         $this->setDescription($itens['description'] || "");
@@ -106,6 +108,26 @@ class Product
     public function setQuantity($quantity)
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
 
         return $this;
     }
