@@ -23,3 +23,4 @@ Route::post('/getsales', [SalesPresentation::class, 'getSales']);
 Route::get('/sale/{id}', [SalesPresentation::class, 'getById']);
 Route::get('/sales', [SalesPresentation::class, 'getAll']);
 Route::delete('/sales/{id}', [SalesPresentation::class, 'destroy']);
+Route::put('sales/{sale}/add-products', [SalesPresentation::class, 'addProducts']);

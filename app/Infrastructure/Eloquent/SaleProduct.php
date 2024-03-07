@@ -11,8 +11,6 @@ class SaleProduct extends Model
 
     protected $table = 'sale_product';
 
-    protected $primaryKey = ['sale_id', 'product_id'];
-
     protected $fillable = [
         'sale_id',
         'product_id',

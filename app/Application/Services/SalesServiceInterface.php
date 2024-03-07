@@ -36,4 +36,11 @@ interface SalesServiceInterface
      * @param int $id
      */
     public function destroy($id);
+
+    /**
+     * Update venda
+     *
+     * @param int $id
+     */
+    public function updateSale($saleId, $saleData);
 }

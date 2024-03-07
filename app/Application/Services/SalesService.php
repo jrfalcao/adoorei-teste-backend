@@ -82,4 +82,27 @@ class SalesService implements SalesServiceInterface
         return $this->salesRepository->destroy($id);
     }
 
+    public function updateSale($saleId, $saleData)
+    {
+        $amauntProductSale = 0;
+        foreach ($saleData as $prod) {
+
+            $prodRepository = $this->productRepository->find($prod['product_id']);
+            if (!$prodRepository) {
+                return null;
+            }
+
+            $sale_prod = $this->salesRepository->getSaleProd($saleId, $prod['product_id']);
+            if(count($sale_prod) > 0){
+                $prod['quantity'] += $sale_prod[0]->quantity;
+            }
+
+            $this->salesRepository->saveOrUpdateSaleProd($saleId, $prod['product_id'], $prod['quantity'], $prodRepository['price']);
+
+            $amauntProductSale += $prodRepository['price'] * $prod['quantity'];
+        }
+
+        $sale = $this->salesRepository->update($saleId, $amauntProductSale);
+        return $sale;
+    }
 }

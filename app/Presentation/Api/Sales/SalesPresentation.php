@@ -59,4 +59,16 @@ class SalesPresentation extends Controller
         else
             return response()->json(['message' => 'Sale not found'], 401);
     }
+
+    public function addProducts(Request $request, $saleId)
+    {
+        $saleData = $request->all();
+        $result = $this->salesService->updateSale($saleId, $saleData);
+
+        if ($result) {
+            return response()->json((array) $result, 201);
+        } else {
+            return response()->json(['message' => 'Failed to create sale.'], 500);
+        }
+    }
 }

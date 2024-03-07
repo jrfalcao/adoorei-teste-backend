@@ -24,6 +24,14 @@ class SalesEloquentRepository implements SalesRepositoryInterface
         return $domainSale->getArray();
     }
 
+    public function update($saleId, $amount) {
+        $sale = EloquentSales::find($saleId);
+        $sale->amount = $amount;
+        $sale->save();
+
+        return $this->find($saleId);
+    }
+
     public function getByPeriod($start_date, $end_date) {
         $sales = EloquentSales::whereBetween('sale_date', [$start_date, $end_date])->get();
         $salesArray = [];
@@ -80,5 +88,19 @@ class SalesEloquentRepository implements SalesRepositoryInterface
             return true;
         }
         return false;
+    }
+
+    public function getSaleProd($saleId, $product_id) {
+        return SaleProduct::where('sale_id', $saleId)
+                ->where('product_id', $product_id)
+                ->get();
+    }
+
+    public function saveOrUpdateSaleProd($saleId, $productId, $quantity, $price) {
+        SaleProduct::updateOrCreate(
+                ['sale_id' => $saleId, 'product_id' => $productId],
+                ['quantity' => $quantity, 'unitary_value' => $price]
+            );
+        return $this->getSaleProd($saleId, $productId);
     }
 }
