@@ -3,53 +3,75 @@
 namespace App\Application\Services;
 
 use App\Domain\Product\Repository\ProductRepositoryInterface;
+use App\Domain\Sale\Entity\Sales;
+use App\Domain\Sale\Repository\SalesRepositoryInterface;
 use Exception;
 
 class SalesService implements SalesServiceInterface
 {
     protected $productRepository;
+    protected $salesRepository;
 
-    public function __construct(ProductRepositoryInterface $productRepository)
+    public function __construct(ProductRepositoryInterface $productRepository, SalesRepositoryInterface $salesRepository)
     {
         $this->productRepository = $productRepository;
+        $this->salesRepository = $salesRepository;
     }
 
-    public function createSale(array $saleData): ?Array
+    public function createSale(array $saleData): Sales|Array
     {
         try {
-            $sale = null; // Placeholder para a instância da venda.
-            $product = [];
+            $sale = null;
+            $products = [];
+            $amauntProductSale = 0;
             foreach ($saleData as $data) {
                 $prod = $this->productRepository->find($data['product_id']);
-                dd($prod);
                 if (!$prod) {
                     // Produto não encontrado, impossível criar a venda.
                     return null;
                 }
 
-                $product[] = $prod;
+                $amauntProductSale += $prod['price'] * $data['quantity'];
+                $prod['quantity'] = $data['quantity'];
 
-                // Aqui você adicionaria a lógica para criar a venda no banco de dados.
-                // Isso poderia envolver a verificação da quantidade disponível, ajuste de estoque,
-                // criação do registro da venda, etc.
-                // Exemplo:
-                // $sale = Sale::create([
-                //     'product_id' => $product->id,
-                //     'amount' => $data['amount'],
-                //     // Outros campos necessários para a venda.
-                // ]);
-
-                // Por simplicidade, retornamos a primeira venda criada,
-                // mas você pode ajustar a lógica conforme necessário.
-                break;
+                array_push($products, $prod);
             }
 
-            dd($product);
+            $sale = $this->salesRepository->create([
+                "amount" => $amauntProductSale,
+                "sale_date" => date('Y-m-d H:i:s')
+            ]);
 
-            return $product;
+            foreach($products as $product) {
+                $data = [
+                    $sale->getId(),
+                    $product['id'],
+                    $product['quantity'],
+                    floatval($product['price']),
+                ];
+                $this->salesRepository->saveProductsSale($data);
+            }
+
+            $sale->setProductsSale($products);
+
+            return $sale->getArray();
         } catch (Exception $e) {
             // Log da exceção ou tratamento de erro específico
             return null;
         }
+    }
+
+    public function getSales($data): ?array {
+        if (isset($data['date_ini']) && isset($data['date_fim'])) {
+            $sales = $this->salesRepository->getByPeriod($data['date_ini'], $data['date_fim']);
+            return [];
+        }
+        else if (isset($data['date'])) {
+            $sales = $this->salesRepository->getByDate($data['date']);
+            return [];
+        }
+        else
+            return null;
+
     }
 }

@@ -2,31 +2,26 @@
 
 namespace App\Infrastructure\Eloquent;
 
-use App\Domain\Product\Entity\Product;
 use Illuminate\Database\Eloquent\Model;
 
 class Sales extends Model
 {
     /**
-     * A tabela associada ao modelo.
      *
      * @var string
      */
     protected $table = 'sales';
 
     /**
-     * Os atributos que são mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name',
-        'price',
         'amount',
+        'sale_date',
     ];
 
     /**
-     * O relacionamento com a tabela de vendas.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

@@ -2,13 +2,12 @@
 
 namespace App\Infrastructure\Persistence\Modules\Products\Repositories;
 
-use App\Domain\Product\Entity\Product as DomainProduct;
-use App\Domain\Product\Repository\ProductRepositoryInterface;
 use App\Infrastructure\Eloquent\Product as EloquentProduct;
+use App\Domain\Product\Repository\ProductRepositoryInterface;
 
 class ProductEloquentRepository implements ProductRepositoryInterface
 {
-    public function find($id): DomainProduct|array
+    public function find($id): array
     {
         $eloquentProduct = EloquentProduct::find($id);
         if (!$eloquentProduct) {

@@ -13,10 +13,8 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained('products');
-            $table->string('name');
-            $table->decimal('price', 8, 2);
-            $table->integer('amount');
+            $table->decimal('amount', 8, 2);
+            $table->date('sale_date');
             $table->timestamps();
         });
     }

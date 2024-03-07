@@ -30,6 +30,7 @@ class Product
         $this->setPrice($itens['price']);
         $this->setDescription($itens['description'] || "");
         $this->setQuantity($itens['quantity']);
+        $this->unsetValidate();
     }
 
     /**
@@ -130,6 +131,10 @@ class Product
         $this->id = $id;
 
         return $this;
+    }
+
+    public function unsetValidate() {
+        unset($this->itemValidator);
     }
 }
 
