@@ -24,7 +24,7 @@ class SalesEloquentRepository implements SalesRepositoryInterface
         return $domainSale->getArray();
     }
 
-    public function update($saleId, $amount) {
+    public function update(int $saleId, float $amount): Array|null {
         $sale = EloquentSales::find($saleId);
         $sale->amount = $amount;
         $sale->save();
@@ -32,7 +32,7 @@ class SalesEloquentRepository implements SalesRepositoryInterface
         return $this->find($saleId);
     }
 
-    public function getByPeriod($start_date, $end_date) {
+    public function getByPeriod($start_date, $end_date): Array {
         $sales = EloquentSales::whereBetween('sale_date', [$start_date, $end_date])->get();
         $salesArray = [];
 
@@ -58,10 +58,6 @@ class SalesEloquentRepository implements SalesRepositoryInterface
                 ->toArray();
     }
 
-    public function getByDate($date) {
-
-    }
-
     public function saveProductsSale($data): bool {
 
         DB::insert('insert into sale_product (
@@ -74,7 +70,7 @@ class SalesEloquentRepository implements SalesRepositoryInterface
         return true;
     }
 
-    public function destroy($id) {
+    public function destroy(int $id): bool {
         if($sale = EloquentSales::findOrFail($id)) {
             $sale->delete();
 
@@ -90,13 +86,13 @@ class SalesEloquentRepository implements SalesRepositoryInterface
         return false;
     }
 
-    public function getSaleProd($saleId, $product_id) {
+    public function getSaleProd($saleId, $product_id): ?SaleProduct  {
         return SaleProduct::where('sale_id', $saleId)
                 ->where('product_id', $product_id)
                 ->get();
     }
 
-    public function saveOrUpdateSaleProd($saleId, $productId, $quantity, $price) {
+    public function saveOrUpdateSaleProd($saleId, $productId, $quantity, $price): ?SaleProduct  {
         SaleProduct::updateOrCreate(
                 ['sale_id' => $saleId, 'product_id' => $productId],
                 ['quantity' => $quantity, 'unitary_value' => $price]
