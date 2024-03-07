@@ -29,4 +29,11 @@ interface SalesServiceInterface
      * @return Array|null Retorna um array com uma venda, nulo caso contrário.
      */
     public function find(int $id): ?Array;
+
+    /**
+     * Deleta uma venda pelo ID
+     *
+     * @param int $id
+     */
+    public function destroy($id);
 }

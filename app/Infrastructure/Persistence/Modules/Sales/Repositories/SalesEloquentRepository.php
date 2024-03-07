@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use App\Domain\Sale\Entity\Sales as DomainSale;
 use App\Domain\Sale\Repository\SalesRepositoryInterface;
 use App\Infrastructure\Eloquent\Sales as EloquentSales;
-use App\Infrastructure\Eloquent\SaleProducts;
+use App\Infrastructure\Eloquent\SaleProduct;
 
 class SalesEloquentRepository implements SalesRepositoryInterface
 {
@@ -56,7 +56,7 @@ class SalesEloquentRepository implements SalesRepositoryInterface
 
     public function saveProductsSale($data): bool {
 
-        DB::insert('insert into sale_products (
+        DB::insert('insert into sale_product (
             sale_id,
             product_id,
             quantity,
@@ -66,5 +66,19 @@ class SalesEloquentRepository implements SalesRepositoryInterface
         return true;
     }
 
+    public function destroy($id) {
+        if($sale = EloquentSales::findOrFail($id)) {
+            $sale->delete();
 
+            $saleProducts = SaleProduct::where('sale_id', $id)->get();
+            foreach($saleProducts as $saleProduct) {
+                DB::table('sale_product')
+                    ->where('sale_id', $id)
+                    ->update(['deleted_at' => date('Y-m-d H:i:s')]);
+            }
+
+            return true;
+        }
+        return false;
+    }
 }

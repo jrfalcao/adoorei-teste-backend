@@ -77,4 +77,9 @@ class SalesService implements SalesServiceInterface
         }
     }
 
+    public function destroy($id)
+    {
+        return $this->salesRepository->destroy($id);
+    }
+
 }

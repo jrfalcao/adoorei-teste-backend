@@ -32,6 +32,6 @@ class Product extends Model
      */
     public function sale()
     {
-        return $this->belongsToMany(SaleProducts::class, 'sale_product', 'product_id', 'sale_id');
+        return $this->belongsToMany(SaleProduct::class, 'sale_product', 'product_id', 'sale_id');
     }
 }

@@ -49,4 +49,14 @@ class SalesPresentation extends Controller
             return response()->json(['message' => 'Failed to find sales.'], 500);
         }
     }
+
+    public function destroy($id)
+    {
+        $result = $this->salesService->destroy($id);
+
+        if($result)
+            return response()->json(['message' => 'Sale deleted successfully'], 200);
+        else
+            return response()->json(['message' => 'Sale not found'], 401);
+    }
 }

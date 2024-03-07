@@ -11,4 +11,5 @@ interface SalesRepositoryInterface
     public function saveProductsSale($data): bool;
     public function getByPeriod($start_date, $end_date);
     public function getByDate($date);
+    public function destroy($id);
 }
