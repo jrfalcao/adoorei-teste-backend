@@ -18,6 +18,10 @@ class SalesService implements SalesServiceInterface
         $this->salesRepository = $salesRepository;
     }
 
+    public function find(int $id): array {
+        return $this->salesRepository->find($id);
+    }
+
     public function createSale(array $saleData): Sales|Array
     {
         try {
@@ -62,16 +66,15 @@ class SalesService implements SalesServiceInterface
     }
 
     public function getSales($data): ?array {
-        if (isset($data['date_ini']) && isset($data['date_fim'])) {
-            $sales = $this->salesRepository->getByPeriod($data['date_ini'], $data['date_fim']);
-            return [];
-        }
-        else if (isset($data['date'])) {
-            $sales = $this->salesRepository->getByDate($data['date']);
-            return [];
-        }
-        else
-            return null;
 
+        if (isset($data['start_date']) && isset($data['end_date']) || isset($data['date'])) {
+            $startDate = isset($data['start_date']) ? $data['start_date'] : $data['date'];
+            $endDate = isset($data['end_date']) ? $data['end_date'] : $data['date'];
+            return $this->salesRepository->getByPeriod($startDate, $endDate);
+        }
+        else {
+            return null;
+        }
     }
+
 }

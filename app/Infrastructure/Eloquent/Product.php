@@ -26,12 +26,12 @@ class Product extends Model
     ];
 
     /**
-     * O relacionamento com a tabela de vendas.
+     * O relacionamento com a tabela de sale.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function sales()
+    public function sale()
     {
-        return $this->hasMany(Sales::class);
+        return $this->belongsToMany(SaleProducts::class, 'sale_product', 'product_id', 'sale_id');
     }
 }

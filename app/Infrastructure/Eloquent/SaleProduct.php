@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SaleProducts extends Model
 {
-    protected $table = 'sale_products';
+    protected $table = 'sale_product';
 
     protected $primaryKey = ['sale_id', 'product_id'];
 
@@ -16,14 +16,4 @@ class SaleProducts extends Model
         'quantity',
         'unitary_value',
     ];
-
-    public function sale()
-    {
-        return $this->belongsTo(Sales::class, 'sale_id');
-    }
-
-    public function product()
-    {
-        return $this->belongsTo(Product::class, 'product_id');
-    }
 }

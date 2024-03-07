@@ -16,11 +16,42 @@ class SalesEloquentRepository implements SalesRepositoryInterface
     }
 
     public function find($id): array {
-        return [];
+        $sale = EloquentSales::find($id);
+        $products = $this->getProducts($sale->id);
+        $domainSale = new DomainSale($sale->id, $sale->amount, $sale->sale_date);
+        $domainSale->setProductsSale($products);
+
+        return $domainSale->getArray();
     }
 
-    public function findAll(): array {
-        return [];
+    public function getByPeriod($start_date, $end_date) {
+        $sales = EloquentSales::whereBetween('sale_date', [$start_date, $end_date])->get();
+        $salesArray = [];
+
+        foreach($sales as $sale){
+            $products = $this->getProducts($sale->id);
+
+            $domainSale = new DomainSale($sale->id, $sale->amount, $sale->sale_date);
+
+            $domainSale->setProductsSale($products);
+            $salesArray[] = $domainSale->getArray();
+        }
+
+        return $salesArray;
+    }
+
+    private function getProducts($saleId)
+    {
+        return DB::table('sale_product')
+                ->join('products', 'sale_product.product_id', '=', 'products.id')
+                ->select('products.id', 'products.name', 'products.price', 'sale_product.quantity')
+                ->where('sale_product.sale_id', '=', $saleId)
+                ->get()
+                ->toArray();
+    }
+
+    public function getByDate($date) {
+
     }
 
     public function saveProductsSale($data): bool {
@@ -34,4 +65,6 @@ class SalesEloquentRepository implements SalesRepositoryInterface
 
         return true;
     }
+
+
 }

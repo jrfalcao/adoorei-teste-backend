@@ -38,4 +38,15 @@ class SalesPresentation extends Controller
             return response()->json(['message' => 'Failed to find sales.'], 500);
         }
     }
+
+    public function getById($id): JsonResponse
+    {
+        $result = $this->salesService->find($id);
+
+        if ($result) {
+            return response()->json((array) $result, 201);
+        } else {
+            return response()->json(['message' => 'Failed to find sales.'], 500);
+        }
+    }
 }

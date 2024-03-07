@@ -26,8 +26,12 @@ class ProductEloquentRepository implements ProductRepositoryInterface
     public function findAll(): array
     {
         $eloquentProducts = EloquentProduct::all();
-        $arrayProducts = [];
+        $arrayProducts = $this->eloquentToArray($eloquentProducts);
+        return $arrayProducts;
+    }
 
+    public function eloquentToArray($eloquentProducts): array {
+        $arrayProducts = [];
         foreach ($eloquentProducts as $eloquentProduct) {
             $arrayProducts[] = [
                 'id' => $eloquentProduct->id,

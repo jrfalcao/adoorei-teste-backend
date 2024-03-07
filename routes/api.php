@@ -15,12 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/products/{id}', function ($id, ProductPresentation $productPresentation) {
-//     return $productPresentation->getProductById($id);
-// });
-
 Route::get('/products/{id}', [ProductPresentation::class, 'getProductById']);
 Route::get('/products', [ProductPresentation::class, 'findAll']);
 
 Route::post('/sales', [SalesPresentation::class, 'createSale']);
+Route::post('/getsales', [SalesPresentation::class, 'getSales']);
+Route::get('/sale/{id}', [SalesPresentation::class, 'getById']);
+Route::get('/sales', [SalesPresentation::class, 'getAll']);
 

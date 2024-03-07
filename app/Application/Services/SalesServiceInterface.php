@@ -21,4 +21,12 @@ interface SalesServiceInterface
      * @return Array|null Retorna um array com as vendas, nulo caso contrário.
      */
     public function getSales($data): ?Array;
+
+    /**
+     * Busca uma venda pelo ID
+     *
+     * @param int $id
+     * @return Array|null Retorna um array com uma venda, nulo caso contrário.
+     */
+    public function find(int $id): ?Array;
 }
