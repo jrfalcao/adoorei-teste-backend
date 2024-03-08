@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Presentation\Api\Products\ProductPresentation;
 use App\Application\Services\ProductServiceInterface;
@@ -25,7 +25,7 @@ class ProductPresentationTest extends TestCase
     /** @test */
     public function it_returns_product_by_id_when_product_exists()
     {
-        $productId = 1;
+        $productId = 10;
         $product = ['id' => $productId, 'name' => 'Test Product', 'price' => 100.00];
 
         // Configura o comportamento esperado do mock.
